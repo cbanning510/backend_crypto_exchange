@@ -8,20 +8,29 @@ const tokens = (n) => {
 };
 
 describe("Token\n", () => {
+  const NAME = "Dapp University";
+  const SYMBOL = "DAPP";
+  const DECIMALS = 18;
+  const TOTAL_SUPPLY = tokens("1000000");
+
   it("has correct name", async () => {
     const { token } = await loadFixture(deployTokenFixture);
-    expect(await token.name()).to.equal("Dapp University");
+    expect(await token.name()).to.equal(NAME);
   });
   it("has correct name", async () => {
     const { token } = await loadFixture(deployTokenFixture);
-    expect(await token.symbol()).to.equal("DAPP");
+    expect(await token.symbol()).to.equal(SYMBOL);
   });
   it("has correct number of decimals", async () => {
     const { token } = await loadFixture(deployTokenFixture);
-    expect(await token.decimals()).to.equal(18);
+    expect(await token.decimals()).to.equal(DECIMALS);
   });
   it("has correct total supply", async () => {
     const { token } = await loadFixture(deployTokenFixture);
-    expect(await token.totalSupply()).to.equal(tokens("1000000"));
+    expect(await token.totalSupply()).to.equal(TOTAL_SUPPLY);
+  });
+  it("assigns totalSupply to deployer", async () => {
+    const { token, deployer } = await loadFixture(deployTokenFixture);
+    expect(await token.balanceOf(deployer.address)).to.equal(tokens("1000000"));
   });
 });
